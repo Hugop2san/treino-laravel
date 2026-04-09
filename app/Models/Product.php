@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
@@ -16,8 +15,8 @@ class Product extends Model
         'preco',
     ];
 
-    public function users()
+    public function sales()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(Sale::class);
     }
 }

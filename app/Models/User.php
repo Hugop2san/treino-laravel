@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
 
 class User extends Model
 {
@@ -17,13 +16,13 @@ class User extends Model
      */
     protected $fillable = [
         'name',
-        'email'
+        'email',
+        'password',
     ];
 
-    public function products()
+    public function sales()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->hasMany(Sale::class);
     }
-
 }
 

@@ -2,49 +2,30 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard</title>
-
-    <!-- Bootstrap CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Teste Laravel</a>
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/dashboard">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Criar Usuario</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Criar Produto</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Criar Venda</a>
-                </li>
-            </ul>
+    <div class="container">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">Teste Laravel</a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" href="{{ route('dashboard.user.index') }}">Usuarios</a>
+            <a class="nav-link" href="{{ route('dashboard.product.index') }}">Produtos</a>
+            <a class="nav-link" href="{{ route('dashboard.venda.index') }}">Vendas</a>
         </div>
     </div>
 </nav>
 
-<!-- Conteúdo -->
 <div class="container mt-4">
-    <h1>Dashboard</h1>
-    <p>Bem-vindo ao sistema.</p>
+    <h1 class="mb-3">Dashboard</h1>
+    <p>Escolha um modulo para gerenciar.</p>
+    <div class="d-flex gap-2">
+        <a class="btn btn-primary" href="{{ route('dashboard.user.index') }}">Ir para Usuarios</a>
+        <a class="btn btn-success" href="{{ route('dashboard.product.index') }}">Ir para Produtos</a>
+        <a class="btn btn-warning" href="{{ route('dashboard.venda.index') }}">Ir para Vendas</a>
+    </div>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>

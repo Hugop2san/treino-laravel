@@ -2,10 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models\User;
-use App\Models\Product;
+use Illuminate\Database\Eloquent\Model;
 
 class Sale extends Model
 {
@@ -13,18 +11,18 @@ class Sale extends Model
 
     protected $fillable = [
         'user_id',
+        'product_id',
+        'quantidade',
         'total',
     ];
 
-    // Venda pertence a um usuário
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Venda tem vários produtos
-    public function products()
+    public function product()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsTo(Product::class);
     }
 }
