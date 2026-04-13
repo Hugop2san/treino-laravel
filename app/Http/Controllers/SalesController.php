@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Sales\CreateSaleUseCase;
+use App\Application\Sales\UpdateSaleUseCase;
 use App\Models\Product;
 use App\Models\Sale;
 use App\Models\User;
@@ -23,7 +25,7 @@ class SalesController extends Controller
         return $this->index();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CreateSaleUseCase $createSaleUseCase)
     {
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id'],
@@ -31,10 +33,7 @@ class SalesController extends Controller
             'quantidade' => ['required', 'integer', 'min:1'],
         ]);
 
-        $product = Product::findOrFail($validated['product_id']);
-        $validated['total'] = $validated['quantidade'] * $product->preco;
-
-        Sale::create($validated);
+        $createSaleUseCase->execute($validated);
 
         return redirect()->route('dashboard.venda.index')->with('success', 'Venda criada com sucesso.');
     }
@@ -53,7 +52,7 @@ class SalesController extends Controller
         ]);
     }
 
-    public function update(Request $request, Sale $venda)
+    public function update(Request $request, Sale $venda, UpdateSaleUseCase $updateSaleUseCase)
     {
         $validated = $request->validate([
             'user_id' => ['required', 'exists:users,id'],
@@ -61,10 +60,7 @@ class SalesController extends Controller
             'quantidade' => ['required', 'integer', 'min:1'],
         ]);
 
-        $product = Product::findOrFail($validated['product_id']);
-        $validated['total'] = $validated['quantidade'] * $product->preco;
-
-        $venda->update($validated);
+        $updateSaleUseCase->execute($venda, $validated);
 
         return redirect()->route('dashboard.venda.index')->with('success', 'Venda atualizada com sucesso.');
     }

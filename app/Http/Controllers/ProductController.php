@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Application\Products\CreateProductUseCase;
+use App\Application\Products\UpdateProductUseCase;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -19,7 +21,7 @@ class ProductController extends Controller
         return view('createproduct.createproduct', ['products' => Product::orderByDesc('id')->get()]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CreateProductUseCase $createProductUseCase)
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -27,7 +29,7 @@ class ProductController extends Controller
             'preco' => ['required', 'numeric', 'min:0'],
         ]);
 
-        Product::create($validated);
+        $createProductUseCase->execute($validated);
 
         return redirect()->route('dashboard.product.index')->with('success', 'Produto criado com sucesso.');
     }
@@ -39,7 +41,7 @@ class ProductController extends Controller
         return view('createproduct.createproduct', compact('products', 'product'));
     }
 
-    public function update(Request $request, Product $product)
+    public function update(Request $request, Product $product, UpdateProductUseCase $updateProductUseCase)
     {
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -47,7 +49,7 @@ class ProductController extends Controller
             'preco' => ['required', 'numeric', 'min:0'],
         ]);
 
-        $product->update($validated);
+        $updateProductUseCase->execute($product, $validated);
 
         return redirect()->route('dashboard.product.index')->with('success', 'Produto atualizado com sucesso.');
     }

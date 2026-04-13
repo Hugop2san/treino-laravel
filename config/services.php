@@ -33,7 +33,8 @@ return [
 
     'openai' => [
         'api_key' => env('OPENAI_API_KEY'),
-        'model' => env('OPENAI_MODEL', 'gpt-4.1-mini'),
+        'model' => env('OPENAI_MODEL', 'gpt-5.4'),
+        'verify_ssl' => filter_var(env('OPENAI_VERIFY_SSL', true), FILTER_VALIDATE_BOOLEAN),
     ],
 
 ];

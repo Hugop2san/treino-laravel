@@ -6,6 +6,10 @@
     <h1 class="mb-3">Dashboard</h1>
     <p>Escolha um modulo para gerenciar.</p>
 
+    -----------------------------------------------------------------------------------------
+
+    <h1>Sugestao 1 (prompt)</h1>
+
     @if($errorMessage)
         <div class="alert alert-danger">{{ $errorMessage }}</div>
     @endif
@@ -33,7 +37,45 @@
         </div>
     @endif
 
-    <div class="card">
+    ----------------------------------------------------------------------------------------
+
+    <h1>Sugestao 2 (botoes)</h1>
+
+    <div class="container py-4">
+        <div class="row g-3">
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="{{ url('/dashboard/user') }}" class="btn btn-primary w-100 py-3">Analises x</a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="{{ url('/dashboard/product') }}" class="btn btn-success w-100 py-3">Analises y</a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="{{ url('/dashboard/venda') }}" class="btn btn-warning w-100 py-3">Analises j</a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <a href="{{ url('/dashboard/analises') }}" class="btn btn-dark w-100 py-3">Analises w</a>
+            </div>
+        </div>
+    </div>
+
+    ----------------------------------------------------------------------------------------
+
+
+    @if(! $analysis)
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Resumo da analise</h5>
+                <p class="mb-1"><strong>Produto mais vendido:</strong> {{ $analysis->produto_mais_vendido ?? 'nenhum' }}</p>
+                <p class="mb-1"><strong>Produto mais caro:</strong> {{ $analysis->produto_mais_caro ?? 'nenhum' }}</p>
+                <p class="mb-0"><strong>Preco:</strong> {{ $analysis->preco_produto_mais_caro ?? 'nenhum' }}</p>
+            </div>
+        </div>
+    @endif
+
+    <div class="card d-none">
         <div class="card-body">
             <table class="table table-striped">
                 <thead>
