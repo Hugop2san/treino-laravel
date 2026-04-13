@@ -1,31 +1,69 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="{{ route('dashboard') }}">Teste Laravel</a>
-        <div class="navbar-nav ms-auto">
-            <a class="nav-link" href="{{ route('dashboard.user.index') }}">Usuarios</a>
-            <a class="nav-link" href="{{ route('dashboard.product.index') }}">Produtos</a>
-            <a class="nav-link" href="{{ route('dashboard.venda.index') }}">Vendas</a>
-        </div>
-    </div>
-</nav>
+@extends('layouts.main')
 
-<div class="container mt-4">
+@section('title', 'Dashboard')
+
+@section('content')
     <h1 class="mb-3">Dashboard</h1>
     <p>Escolha um modulo para gerenciar.</p>
-    <div class="d-flex gap-2">
-        <a class="btn btn-primary" href="{{ route('dashboard.user.index') }}">Ir para Usuarios</a>
-        <a class="btn btn-success" href="{{ route('dashboard.product.index') }}">Ir para Produtos</a>
-        <a class="btn btn-warning" href="{{ route('dashboard.venda.index') }}">Ir para Vendas</a>
+
+    @if($errorMessage)
+        <div class="alert alert-danger">{{ $errorMessage }}</div>
+    @endif
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Pergunta para o agent</h5>
+            <form method="POST" action="{{ route('dashboard.prompt.ask') }}">
+                @csrf
+                <div class="mb-3">
+                    <label for="prompt" class="form-label">Prompt</label>
+                    <textarea id="prompt" name="prompt" class="form-control" rows="5" required>{{ $prompt }}</textarea>
+                </div>
+                <button type="submit" class="btn btn-dark">Enviar prompt</button>
+            </form>
+        </div>
     </div>
-</div>
-</body>
-</html>
+
+    @if($answer)
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title">Resposta do agent</h5>
+                <div style="white-space: pre-wrap;">{{ $answer }}</div>
+            </div>
+        </div>
+    @endif
+
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Usuarios</th>
+                        <th>Produtos Vendidos</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($users as $user)
+                        @foreach($user->sales as $index => $sale)
+                            <tr>
+                                @if($index === 0)
+                                    <td rowspan="{{ $user->sales->count() }}">
+                                        {{ $user->name }}
+                                    </td>
+                                @endif
+
+                                <td>
+                                    {{ $sale->product->name }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="2">Nenhum usuario cadastrado.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+@endsection

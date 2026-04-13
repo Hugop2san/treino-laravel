@@ -1,18 +1,24 @@
 <?php
 
+use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+
 
 Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
 Route::prefix('dashboard')->group(function () {
-    Route::get('/', function () {
-        return view('dashboard.dashboard');
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/prompt', [AnalysisController::class, 'ask'])->name('dashboard.prompt.ask');
+
+    Route::prefix('analises')->name('dashboard.analises.')->group(function () {
+        Route::get('/', [AnalysisController::class, 'index'])->name('index');
+    });
 
     Route::prefix('user')->name('dashboard.user.')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
