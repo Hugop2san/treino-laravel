@@ -37,43 +37,86 @@
         </div>
     @endif
 
-    ----------------------------------------------------------------------------------------
+    <div class="mb-5 bg-dark"> 
+        .
+    </div>
 
-    <h1>Sugestao 2 (botoes)</h1>
+    <h1>Sugestao 2 (botoes ou balões de sugestoes de analises ou tarefas)</h1>
 
-    <div class="container py-4">
-        <div class="row g-3">
-            <div class="col-12 col-md-6 col-lg-3">
-                <a href="{{ url('/dashboard/user') }}" class="btn btn-primary w-100 py-3">Analises x</a>
-            </div>
+    <div class="card mb-4" >
+        <div class="card-body py-5">
+            <h5 class="card-title">Sugestões de analises do Agent</h5>
+            <p>Selecione uma sugestão para visualizar a análise:</p>
+            <div class="row g-3">
+                <div class="col-12 col-md-6 col-lg-3">
+                    <button type="button" class="btn btn-primary w-100 py-3 analysis-filter-btn produto-mais-vendido-btn" data-target="card-produto-mais-vendido">Produto mais vendido</button>
+                </div>
 
-            <div class="col-12 col-md-6 col-lg-3">
-                <a href="{{ url('/dashboard/product') }}" class="btn btn-success w-100 py-3">Analises y</a>
-            </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <button type="button" class="btn btn-success w-100 py-3 analysis-filter-btn produto-mais-caro-btn" data-target="card-produto-mais-caro">Produto mais caro</button>
+                </div>
 
-            <div class="col-12 col-md-6 col-lg-3">
-                <a href="{{ url('/dashboard/venda') }}" class="btn btn-warning w-100 py-3">Analises j</a>
-            </div>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <button type="button" class="btn btn-warning w-100 py-3 analysis-filter-btn vendas-atuais-btn" data-target="card-vendas-atuais">Vendas atuais</button>
+                </div>
 
-            <div class="col-12 col-md-6 col-lg-3">
-                <a href="{{ url('/dashboard/analises') }}" class="btn btn-dark w-100 py-3">Analises w</a>
+                <div class="col-12 col-md-6 col-lg-3">
+                    <button type="button" class="btn btn-dark w-100 py-3 analysis-filter-btn analises-btn" data-target="card-resumo-analise">Analises</button>
+                </div>
             </div>
         </div>
     </div>
+    <br>
+    @if($analysis)
+        <div id="card-vendas-atuais" class="card mb-4 analysis-card" style="display: none;">
+            <div class="card-body">
+                <h5 class="card-title">Resposta do agent</h5>
+                <p class="mb-1"><strong>Total de produtos cadastrados:</strong> {{ $analysis->total_produtos_cadastrados ?? 0 }}</p>
+                <p class="mb-1"><strong>Quantidade total em estoque:</strong> {{ $analysis->quantidade_total_estoque ?? 0 }}</p>
+                <p class="mb-1"><strong>Valor total em estoque:</strong> {{ $analysis->valor_total_estoque ?? 0 }}</p>
+            </div>
+        </div>
 
-    ----------------------------------------------------------------------------------------
+        <div id="card-produto-mais-caro" class="card mb-4 analysis-card" style="display: none;">
+            <div class="card-body">
+                <h5 class="card-title">Resposta do agent</h5>
+                <p class="mb-1"><strong>Produto mais caro:</strong> {{ $analysis->produto_mais_caro ?? 'nenhum' }}</p>
+                <p class="mb-1"><strong>Preco mais caro:</strong> {{ $analysis->preco_produto_mais_caro ?? 'nenhum' }}</p>
+            </div>
+        </div>
 
+        <div id="card-produto-mais-vendido" class="card mb-4 analysis-card" style="display: none;">
+            <div class="card-body">
+                <h5 class="card-title">Resposta do agent</h5>
+                <p class="mb-1"><strong>Produto mais vendido:</strong> {{ $analysis->produto_mais_vendido ?? 'nenhum' }}</p>
+            </div>
+        </div>
 
-    @if(! $analysis)
-        <div class="card mb-4">
+        <div id="card-resumo-analise" class="card mb-4 analysis-card" style="display: none;">
             <div class="card-body">
                 <h5 class="card-title">Resumo da analise</h5>
                 <p class="mb-1"><strong>Produto mais vendido:</strong> {{ $analysis->produto_mais_vendido ?? 'nenhum' }}</p>
                 <p class="mb-1"><strong>Produto mais caro:</strong> {{ $analysis->produto_mais_caro ?? 'nenhum' }}</p>
-                <p class="mb-0"><strong>Preco:</strong> {{ $analysis->preco_produto_mais_caro ?? 'nenhum' }}</p>
+                <p class="mb-1"><strong>Preco mais caro:</strong> {{ $analysis->preco_produto_mais_caro ?? 'nenhum' }}</p>
+                <p class="mb-1"><strong>Produto mais barato:</strong> {{ $analysis->produto_mais_barato ?? 'nenhum' }}</p>
+                <p class="mb-1"><strong>Preco mais barato:</strong> {{ $analysis->preco_produto_mais_barato ?? 'nenhum' }}</p>
+                <p class="mb-1"><strong>Total de produtos cadastrados:</strong> {{ $analysis->total_produtos_cadastrados ?? 0 }}</p>
+                <p class="mb-1"><strong>Quantidade total em estoque:</strong> {{ $analysis->quantidade_total_estoque ?? 0 }}</p>
+                <p class="mb-1"><strong>Valor total em estoque:</strong> {{ $analysis->valor_total_estoque ?? 0 }}</p>
+                <p class="mb-1"><strong>Produto com maior estoque:</strong> {{ $analysis->produto_maior_estoque ?? 'nenhum' }}</p>
+                <p class="mb-0"><strong>Produtos sem estoque:</strong> {{ $analysis->produtos_sem_estoque ?? 0 }}</p>
             </div>
         </div>
+    @else
+        <div class="alert alert-warning">
+            Nenhuma analise disponivel ainda. Envie um prompt para gerar a primeira analise.
+        </div>
     @endif
+
+    <div class="mb-5 bg-dark"> 
+        .
+    </div>
+
 
     <div class="card d-none">
         <div class="card-body">
@@ -108,4 +151,31 @@
             </table>
         </div>
     </div>
+
+    <script>
+        (() => {
+            const cards = Array.from(document.querySelectorAll('.analysis-card'));
+            const buttons = Array.from(document.querySelectorAll('.analysis-filter-btn'));
+
+
+            function showCard(target) {
+                cards.forEach((card) => {
+                    card.style.display = 'none';
+                });
+
+                const selectedCard = document.getElementById(target);
+                if (selectedCard) {
+                    selectedCard.style.display = 'block';
+                }
+            }
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', () => {
+                    showCard(button.dataset.target);
+                });
+            });
+
+            // Mantem tudo oculto no carregamento inicial.
+        })();
+    </script>
 @endsection

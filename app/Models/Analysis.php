@@ -12,6 +12,10 @@ class Analysis extends Model
     protected $casts = [
         'preco_produto_mais_caro' => 'decimal:2',
         'preco_produto_mais_barato' => 'decimal:2',
+        'total_produtos_cadastrados' => 'integer',
+        'quantidade_total_estoque' => 'integer',
+        'valor_total_estoque' => 'decimal:2',
+        'produtos_sem_estoque' => 'integer',
     ];
     
     protected $fillable = [
@@ -20,5 +24,10 @@ class Analysis extends Model
         'produto_mais_barato',
         'preco_produto_mais_caro',
         'preco_produto_mais_barato',
+        'total_produtos_cadastrados',
+        'quantidade_total_estoque',
+        'valor_total_estoque',
+        'produto_maior_estoque',
+        'produtos_sem_estoque',
     ];
 }
